@@ -1,13 +1,13 @@
 target/
-!.mvn/wrapper/maven-wrapper.jar
+!TemperatureConverter/.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
 ### IntelliJ IDEA ###
-.idea/modules.xml
+TemperatureConverter/.idea/modules.xml
 .idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
+TemperatureConverter/.idea/compiler.xml
+TemperatureConverter/.idea/libraries/
 *.iws
 *.iml
 *.ipr
