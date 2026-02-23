@@ -12,6 +12,11 @@ public class TemperatureConverter {
         return Math.round(fahrenheit * 10.0) / 10.0;
     }
 
+    public double kelvinToCelsius(double kelvin) {
+        double celcius = kelvin - 273.15;
+        return Math.round(celcius * 10.0) / 10.0;
+    }
+
     boolean isExtremeTemperature(double celcius) {
         if (-40 >= celcius || celcius >= 50) {
             return true;
