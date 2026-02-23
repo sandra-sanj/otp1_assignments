@@ -58,6 +58,7 @@
                         <exclude>sun/util/cldr/**</exclude>
                         <exclude>sun/util/resources/provider/LocaleDataProvider</exclude>
                         <exclude>sun/text/resources/cldr/ext/FormatData_fi</exclude>
+                        <exclude>**/Main.class</exclude>
                     </excludes>
                 </configuration>
             </plugin>
