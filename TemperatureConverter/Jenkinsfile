@@ -21,25 +21,25 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'mvn clean test'
+                sh: 'mvn clean test'
             }
         }
 
         stage("Build") {
             steps {
-                sh "mvn clean install"
+                sh: "mvn clean install"
             }
         }
 
         stage("Code Coverage") {
             steps {
-                sh "mvn jacoco:report"
+                sh: "mvn jacoco:report"
             }
         }
 
         stage('Publish Test Results') {
             steps {
-                junit '**/target/surefire-reports/*.xml'
+                junit: '**/target/surefire-reports/*.xml'
             }
         }
 
