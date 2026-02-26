@@ -4,12 +4,15 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        /*Scanner sc = new Scanner(System.in);
         System.out.print("Enter temperature: ");
         double temperature = sc.nextDouble();
 
         System.out.print("Select temperature unit (c/f) and convert to the other: ");
-        String unit = sc.next();
+        String unit = sc.next();*/
+
+        double temperature = 100;
+        String unit = "c";
 
         TemperatureConverter temperatureConverter = new TemperatureConverter();
         double convertedTemperature;
