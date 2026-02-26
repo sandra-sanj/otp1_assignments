@@ -43,7 +43,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>Calculator</mainClass>
+                            <mainClass>temperature_converter.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
