@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    tools {
+        maven: Maven3
+    }
+
+    stages {
+        stage("check") {
+            steps {
+                git "https://github.com/sandra-sanj/otp1_assignments.git"
+            }
+        }
+
+        stage("build") {
+            steps {
+                sh "mvn clean install"
+            }
+        }
+
+        stage("report") {
+            steps {
+                sh "mvn jacoco:report"
+            }
+        }
+    }
+}
