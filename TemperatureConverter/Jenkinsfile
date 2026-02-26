@@ -5,22 +5,47 @@ pipeline {
         maven: Maven3
     }
 
+    environment {
+        PATH = "/usr/local/bin/docker"
+        DOCKERHUB_CREDENTIALS_ID = 'docker_hub'
+        DOCKERHUB_REPO = 'sandra-sanj/otp1_assignments'
+        DOCKER_IMAGE_TAG = 'latest'
+    }
+
     stages {
-        stage("check") {
+        stage('Checkout') {
             steps {
                 git "https://github.com/sandra-sanj/otp1_assignments.git"
             }
         }
 
-        stage("build") {
+        stage('Run Tests') {
+            steps {
+                sh 'mvn clean test'
+            }
+        }
+
+        stage("Build") {
             steps {
                 sh "mvn clean install"
             }
         }
 
-        stage("report") {
+        stage("Code Coverage") {
             steps {
                 sh "mvn jacoco:report"
+            }
+        }
+
+        stage('Publish Test Results') {
+            steps {
+                junit '**/target/surefire-reports/*.xml'
+            }
+        }
+
+        stage('Publish Coverage Report') {
+            steps {
+                jacoco()
             }
         }
     }
