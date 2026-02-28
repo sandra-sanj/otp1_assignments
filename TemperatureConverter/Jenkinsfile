@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        PATH = '/usr/local/bin/:${env.PATH}'
+        //PATH = '/usr/local/bin/:${env.PATH}'
         DOCKERHUB_CREDENTIALS_ID = 'docker_hub'
         DOCKERHUB_REPO = 'sandrajuu/temperature-converter'
         DOCKER_IMAGE_TAG = 'latest'
