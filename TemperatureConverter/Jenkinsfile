@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.9.6-eclipse-temurin-21'
-        }
-    }
+    agent any
 
     tools {
         maven 'Maven3'
@@ -23,12 +19,6 @@ pipeline {
                 sh 'docker build -t temperature_converter:latest TemperatureConverter/'
             }
         } */
-
-        stage('Checkout') {
-            steps {
-                git url: 'https://github.com/sandra-sanj/otp1_assignments.git', branch: 'main'
-            }
-        }
 
         stage('Run Tests') {
             steps {
