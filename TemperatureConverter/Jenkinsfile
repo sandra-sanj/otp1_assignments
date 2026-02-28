@@ -2,50 +2,91 @@ pipeline {
     agent any
 
     tools {
-        maven "Maven3"
+        maven 'Maven3'
     }
 
     environment {
-        PATH = "/usr/local/bin/docker"
+        PATH = '/usr/local/bin/:${env.PATH}'
         DOCKERHUB_CREDENTIALS_ID = 'docker_hub'
-        DOCKERHUB_REPO = 'sandra-sanj/otp1_assignments'
+        DOCKERHUB_REPO = 'sandrajuu/temperature-converter'
         DOCKER_IMAGE_TAG = 'latest'
     }
 
     stages {
+        /* stage("Confirm Docker") {
+            steps {
+                sh 'docker version'
+                sh 'docker build -t temperature_converter:latest TemperatureConverter/'
+            }
+        } */
+
         stage('Checkout') {
             steps {
-                git url: "https://github.com/sandra-sanj/otp1_assignments.git", branch: "main"
+                git url: 'https://github.com/sandra-sanj/otp1_assignments.git', branch: 'main'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh: 'mvn clean test'
+                dir('TemperatureConverter') {
+                    sh 'mvn clean test'
+                }
             }
         }
 
         stage("Build") {
             steps {
-                sh: "mvn clean install"
+                dir('TemperatureConverter') {
+                    sh 'mvn clean install'
+                }
             }
         }
 
         stage("Code Coverage") {
             steps {
-                sh: "mvn jacoco:report"
+                dir('TemperatureConverter') {
+                    sh 'mvn jacoco:report'
+                }
             }
         }
 
         stage('Publish Test Results') {
             steps {
-                junit: '**/target/surefire-reports/*.xml'
+                dir('TemperatureConverter') {
+                    junit '**/target/surefire-reports/*.xml'
+                }
             }
         }
 
         stage('Publish Coverage Report') {
             steps {
                 jacoco()
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.build('${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}', 'TemperatureConverter')
+                }
+            }
+        }
+
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                sh 'docker --version'
+                sh 'docker ps'
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'docker_hub', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                        sh """
+                            echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+                            docker push ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}
+                        """
+                    }
+                    /* docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS_ID) {
+                        sh "docker push ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}"
+                    } */
+                }
             }
         }
     }
